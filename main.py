@@ -3,7 +3,7 @@ from rich.table import Table
 
 table = Table(title="\nTabel Ambisi")
 rows = [
-    ["1", "Doe", "45", "NA"],
+    ["1", "NA", "45", "NA"],
     ["2", "Doe", "45", "NA"],
     ["3", "Doe", "45", "NA"],
     ["4", "Doe", "45", "NA"],
