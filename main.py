@@ -3,12 +3,12 @@ from rich.table import Table
 
 table = Table(title="\nTabel Ambisi")
 rows = [
-    ["1", "NA", "45", "NA"],
-    ["2", "Doe", "45", "NA"],
-    ["3", "Doe", "45", "NA"],
-    ["4", "Doe", "45", "NA"],
-    ["5", "Doe", "45", "NA"],
-    ["6", "Doe", "45", "NA"],
+    ["1", "NA", "NA", "NA"],
+    ["2", "NA", "NA", "NA"],
+    ["3", "IPK 3,1", "IPK 2,89", "NA"],
+    ["4", "NA", "NA", "NA"],
+    ["5", "NA", "NA", "NA"],
+    ["6", "NA", "NA", "NA"],
 ]
 columns = ["Semester", "Tujuan", "Kenyataan", "Usaha"]
 
