@@ -1,6 +1,9 @@
 import csv
 from rich.console import Console
 from rich.table import Table
+import os; import time
+import alive_progress
+import alive_bar
 
 rows = [
     ["1", "NA", "NA", "NA"],
@@ -40,18 +43,26 @@ def editData():
 
 # fungsi menyimpan data yang telah di edit ke dalam file csv
 def simpanData():
-    with open('D:/Proyek/dataTabelAmbisi.csv', mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerows(rows)
+    with alive_bar(100, title='Menyimpan data..') as bar:
+        with open('D:/Proyek/dataTabelAmbisi.csv', mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(rows)
+            for _ in range(100):
+                time.sleep(.02)
+                bar()
     print("Data berhasil disimpan.")
 
 # fungsi memuat data yang telah disimpan sebelumnya
 def muatData():
     global rows
     try:
-        with open('D:/Proyek/dataTabelAmbisi.csv', mode='r') as file:
-            reader = csv.reader(file)
-            rows = list(reader)
+        with alive_bar(100, title='Memuat data..') as bar:
+            with open('D:/Proyek/dataTabelAmbisi.csv', mode='r') as file:
+                reader = csv.reader(file)
+                rows = list(reader)
+                for _ in range(100):
+                    time.sleep(.05)
+                    bar()
         print("Data berhasil dimuat.")
     except FileNotFoundError:
         print("Tidak ada file tersebut.")
@@ -75,6 +86,7 @@ def main():
             muatData()
         elif pilihan == "4":
             print("Keluar dari program.")
+            os.system('cls')
             break
         else:
             print("Opsi tidak valid. Silakan coba lagi.")
