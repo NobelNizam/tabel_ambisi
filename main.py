@@ -75,7 +75,6 @@ def muatData():
 
 # fungsi looping untuk menjalankan fungsi tabel disertai menu
 def main():
-    console = Console()
     while True:
         tabel()
         console.print('\nMenu:', style="bold green")
