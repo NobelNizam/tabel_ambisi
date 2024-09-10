@@ -1,6 +1,13 @@
 import csv
 from rich.console import Console
 from rich.table import Table
+import os
+import time
+from alive_progress import alive_bar
+
+# Menentukan directory penyimpanan data
+direktori_sekarang = os.getcwd()
+filename = os.path.join(direktori_sekarang, "data_tabel.csv")
 
 rows = [
     ["1", "NA", "NA", "NA"],
@@ -11,18 +18,20 @@ rows = [
     ["6", "NA", "NA", "NA"],
 ]
 
+console = Console()
+
 # fungsi untuk memuat data template dari rows
 def tabel():
-    table = Table(title="\nTabel Ambisi")
+    table = Table(title="\nTabel Ambisi", title_justify="center", show_header=True, header_style="bold magenta", border_style="bright_blue")
     columns = ["Semester", "Tujuan", "Kenyataan", "Usaha"]
     for column in columns:
         table.add_column(column)
     for row in rows:
         table.add_row(*row, style='bright_green')
-    console = Console()
     console.print(table)
+    console.print("\nTotal Semester yang dimasukkan: {}".format(len(rows)), style="bold green")
 
-# fungsi untuk menjalanankan opsi edit tabel
+# fungsi untuk menjalanankan opsi edit tabel dengan progress bar
 def editData():
     smester = input('Pilih Semester -> ')
     if smester in [row[0] for row in rows[0:]]:
@@ -38,35 +47,45 @@ def editData():
     else:
         print(f"Tidak ada semester {smester} tersebut!") 
 
-# fungsi menyimpan data yang telah di edit ke dalam file csv
+# fungsi menyimpan data yang telah di edit ke dalam file csv dengan progress bar
 def simpanData():
-    with open('D:/Proyek/dataTabelAmbisi.csv', mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerows(rows)
+    with alive_bar(100, title='Menyimpan data...') as bar:
+        with open(filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(rows)
+            for _ in range(100):
+                time.sleep(.02)
+                bar()
     print("Data berhasil disimpan.")
 
-# fungsi memuat data yang telah disimpan sebelumnya
+# fungsi memuat data yang telah disimpan sebelumnya dengan progress bar
 def muatData():
     global rows
     try:
-        with open('D:/Proyek/dataTabelAmbisi.csv', mode='r') as file:
-            reader = csv.reader(file)
-            rows = list(reader)
+        with alive_bar(100, title='Memuat data...') as bar:
+            with open(filename, mode='r') as file:
+                reader = csv.reader(file)
+                rows = list(reader)
+                for _ in range(100):
+                    time.sleep(.03)
+                    bar()
         print("Data berhasil dimuat.")
     except FileNotFoundError:
         print("Tidak ada file tersebut.")
 
-
 # fungsi looping untuk menjalankan fungsi tabel disertai menu
 def main():
+    console = Console()
     while True:
         tabel()
-        print('\nMenu:')
-        print("1 -> Ubah Ambisi")
-        print("2 -> Simpan Data")
-        print("3 -> Muat Data")
-        print("4 -> Keluar\n")
+        console.print('\nMenu:', style="bold green")
+        console.print("1 -> Ubah Ambisi", style="bold green")
+        console.print("2 -> Simpan Data", style="bold green")
+        console.print("3 -> Muat Data", style="bold green")
+        console.print("4 -> Keluar\n", style="bold green")
+        
         pilihan = input("Pilih opsi -> ")
+        
         if pilihan == "1":
             editData()
         elif pilihan == "2":
@@ -74,11 +93,12 @@ def main():
         elif pilihan == "3":
             muatData()
         elif pilihan == "4":
-            print("Keluar dari program.")
+            console.print("Keluar dari program.", style="bold red")
+            time.sleep(1)
+            os.system('cls')
             break
         else:
-            print("Opsi tidak valid. Silakan coba lagi.")
-
+            console.print("Opsi tidak valid. Silakan coba lagi.", style="bold red")
 
 if __name__ == "__main__":
     main()
