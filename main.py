@@ -2,8 +2,7 @@ import csv
 from rich.console import Console
 from rich.table import Table
 import os; import time
-import alive_progress
-import alive_bar
+from alive_progress import alive_bar
 
 rows = [
     ["1", "NA", "NA", "NA"],
